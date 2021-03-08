@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.2",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "COBAShop.ViewModels/1.0.0": {
+        "runtime": {
+          "COBAShop.ViewModels.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "COBAShop.ViewModels/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
