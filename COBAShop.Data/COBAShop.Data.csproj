@@ -7,8 +7,4 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>D:\Document\COBAShop\COBASolution\Lib\</OutputPath>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="EF\" />
-  </ItemGroup>
 </Project>
