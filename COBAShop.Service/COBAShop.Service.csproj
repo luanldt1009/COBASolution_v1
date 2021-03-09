@@ -7,4 +7,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>D:\Document\COBAShop\COBASolution\Lib\</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+
+    <ProjectReference Include="..\COBAShop.Data\COBAShop.Data.csproj" />
+
+    <ProjectReference Include="..\COBAShop.Utilities\COBAShop.Utilities.csproj" />
+    <ProjectReference Include="..\COBAShop.ViewModels\COBAShop.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
+  </ItemGroup>
 </Project>

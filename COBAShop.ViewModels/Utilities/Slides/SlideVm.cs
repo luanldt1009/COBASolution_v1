@@ -11,5 +11,6 @@ namespace COBAShop.ViewModels.Utilities.Slides
         public string Description { get; set; }
         public string Image { get; set; }
         public int SortOrder { get; set; }
+        public string Url { get; set; }
     }
 }

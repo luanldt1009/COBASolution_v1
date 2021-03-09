@@ -7,14 +7,49 @@
   "targets": {
     ".NETCoreApp,Version=v2.2": {
       "COBAShop.Service/1.0.0": {
+        "dependencies": {
+          "COBAShop.Data": "1.0.0",
+          "COBAShop.Utilities": "1.0.0",
+          "COBAShop.ViewModels": "1.0.0"
+        },
         "runtime": {
           "COBAShop.Service.dll": {}
+        }
+      },
+      "COBAShop.Data/1.0.0": {
+        "runtime": {
+          "COBAShop.Data.dll": {}
+        }
+      },
+      "COBAShop.Utilities/1.0.0": {
+        "runtime": {
+          "COBAShop.Utilities.dll": {}
+        }
+      },
+      "COBAShop.ViewModels/1.0.0": {
+        "runtime": {
+          "COBAShop.ViewModels.dll": {}
         }
       }
     }
   },
   "libraries": {
     "COBAShop.Service/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "COBAShop.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "COBAShop.Utilities/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "COBAShop.ViewModels/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

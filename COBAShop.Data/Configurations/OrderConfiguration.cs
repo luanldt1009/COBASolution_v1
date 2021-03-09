@@ -15,7 +15,7 @@ namespace COBAShop.Data.Configurations
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id).UseIdentityColumn();
+            builder.Property(x => x.Id).UseSqlServerIdentityColumn();
 
             builder.Property(x => x.OrderDate);
 
