@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace COBAShop.Service.Catalog.Products
 {
-    internal partial interface IProductService
+    public interface IProductService
     {
         Task<int> Create(ProductCreateRequest request);
 

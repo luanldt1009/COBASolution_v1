@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COBAShop.API", "COBAShop.API\COBAShop.API.csproj", "{D7B82547-A017-42FA-89D6-0D9928F364CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COBAShop.Data", "COBAShop.Data\COBAShop.Data.csproj", "{26705349-0ADD-467C-AC2E-372F4A0AA793}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COBAShop.Data", "COBAShop.Data\COBAShop.Data.csproj", "{26705349-0ADD-467C-AC2E-372F4A0AA793}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COBAShop.Service", "COBAShop.Service\COBAShop.Service.csproj", "{5A58F903-7DC9-4825-8584-1D4F20E94EE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COBAShop.Service", "COBAShop.Service\COBAShop.Service.csproj", "{5A58F903-7DC9-4825-8584-1D4F20E94EE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COBAShop.Utilities", "COBAShop.Utilities\COBAShop.Utilities.csproj", "{0004D461-1DD8-4643-90F1-1281ABB01DB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COBAShop.Utilities", "COBAShop.Utilities\COBAShop.Utilities.csproj", "{0004D461-1DD8-4643-90F1-1281ABB01DB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COBAShop.ViewModels", "COBAShop.ViewModels\COBAShop.ViewModels.csproj", "{A060B00E-E143-4B97-A241-70399CFC42D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COBAShop.ViewModels", "COBAShop.ViewModels\COBAShop.ViewModels.csproj", "{A060B00E-E143-4B97-A241-70399CFC42D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COBAShop.AdminApp", "COBAShop.AdminApp\COBAShop.AdminApp.csproj", "{0E0F900C-91C9-4847-ACCC-685B6F66D969}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COBAShop.AdminApp", "COBAShop.AdminApp\COBAShop.AdminApp.csproj", "{0E0F900C-91C9-4847-ACCC-685B6F66D969}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COBAShop.WebApp", "COBAShop.WebApp\COBAShop.WebApp.csproj", "{9B1B1881-941B-4B73-B36D-D849BBFBBA2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COBAShop.WebApp", "COBAShop.WebApp\COBAShop.WebApp.csproj", "{9B1B1881-941B-4B73-B36D-D849BBFBBA2C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Host", "Host", "{83A5F7B9-7EA6-41E6-9122-639EF1106977}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D7B82547-A017-42FA-89D6-0D9928F364CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7B82547-A017-42FA-89D6-0D9928F364CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7B82547-A017-42FA-89D6-0D9928F364CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7B82547-A017-42FA-89D6-0D9928F364CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26705349-0ADD-467C-AC2E-372F4A0AA793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26705349-0ADD-467C-AC2E-372F4A0AA793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26705349-0ADD-467C-AC2E-372F4A0AA793}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,6 +50,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0E0F900C-91C9-4847-ACCC-685B6F66D969} = {83A5F7B9-7EA6-41E6-9122-639EF1106977}
+		{9B1B1881-941B-4B73-B36D-D849BBFBBA2C} = {83A5F7B9-7EA6-41E6-9122-639EF1106977}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {670C77CC-420F-4175-817D-3CE61E3F8081}

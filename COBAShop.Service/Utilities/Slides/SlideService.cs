@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace COBAShop.Service.Utilities.Slides
 {
-    public class SlideService : ISliderService
+    public class SlideService : ISlideService
     {
         public readonly COBAShopDbContext _context;
 

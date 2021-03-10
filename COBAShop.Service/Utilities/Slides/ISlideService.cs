@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace COBAShop.Service.Utilities.Slides
 {
-    public interface ISliderService
+    public interface ISlideService
     {
         Task<List<SlideVm>> GetAll();
     }
