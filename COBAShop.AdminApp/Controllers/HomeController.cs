@@ -8,7 +8,7 @@ using COBAShop.AdminApp.Models;
 
 namespace COBAShop.AdminApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public IActionResult Index()
         {

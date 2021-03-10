@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using COBAShop.APIIntegration;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -24,13 +26,41 @@ namespace COBAShop.AdminApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+              .AddCookie(options =>
+              {
+                  options.LoginPath = "/Login/Index";
+                  options.AccessDeniedPath = "/User/Forbidden/";
+              });
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddTransient<IUserApiClient, UserApiClient>();
+            //services.AddTransient<IRoleApiClient, RoleApiClient>();
+            //services.AddTransient<ILanguageApiClient, LanguageApiClient>();
+            //services.AddTransient<IProductApiClient, ProductApiClient>();
+            //services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+
+            //            IMvcBuilder builder = services.AddRazorPages();
+            //            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            //#if DEBUG
+            //            if (environment == Environments.Development)
+            //            {
+            //                builder.AddRazorRuntimeCompilation();
+            //            }
+            //#endif
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -47,11 +77,14 @@ namespace COBAShop.AdminApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseStaticFiles();
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            // app.UseAuthorization();
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
