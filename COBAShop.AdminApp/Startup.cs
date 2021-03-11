@@ -34,17 +34,13 @@ namespace COBAShop.AdminApp
                   options.AccessDeniedPath = "/User/Forbidden/";
               });
 
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-            });
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IUserApiClient, UserApiClient>();
             //services.AddTransient<IRoleApiClient, RoleApiClient>();
@@ -62,6 +58,26 @@ namespace COBAShop.AdminApp
             //            }
             //#endif
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            //services.AddSession(options =>
+            //{
+            //    options.IdleTimeout = TimeSpan.FromMinutes(30);
+            //});
+
+            services.AddDistributedMemoryCache();
+            services.AddMvc().AddSessionStateTempDataProvider();
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "TanvirArjel.Session";
+                options.IdleTimeout = TimeSpan.FromDays(1);
+            });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,8 +90,6 @@ namespace COBAShop.AdminApp
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
             }
             app.UseStaticFiles();
             app.UseAuthentication();

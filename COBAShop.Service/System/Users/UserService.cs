@@ -59,7 +59,7 @@ namespace COBAShop.Service.System.Users
             var token = new JwtSecurityToken(_configuration["Tokens:Issuer"],
                 _configuration["Tokens:Issuer"],
                 claims,
-                expires: DateTime.Now.AddHours(3),
+                expires: DateTime.Now.AddHours(10),
                 signingCredentials: creds);
 
             return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
@@ -77,7 +77,7 @@ namespace COBAShop.Service.System.Users
             {
                 return new ApiErrorResult<bool>("Xóa không thành công");
             }
-            return new ApiErrorResult<bool>("Xóa thành công");
+            return new ApiSuccessResult<bool>();
         }
 
         public async Task<ApiResult<UserVm>> GetById(Guid id)
@@ -88,8 +88,18 @@ namespace COBAShop.Service.System.Users
                 return new ApiErrorResult<UserVm>("Tài khoản không tồn tại");
             }
             var result = await _userManager.GetRolesAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
+
             var userVm = new UserVm()
             {
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                Dob = user.Dob,
+                Id = user.Id,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Roles = roles
             };
             return new ApiSuccessResult<UserVm>(userVm);
         }

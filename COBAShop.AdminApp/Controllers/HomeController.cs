@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using COBAShop.AdminApp.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace COBAShop.AdminApp.Controllers
 {
@@ -12,6 +13,8 @@ namespace COBAShop.AdminApp.Controllers
     {
         public IActionResult Index()
         {
+            var user = User.Identity.Name;
+
             return View();
         }
 
