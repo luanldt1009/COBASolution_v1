@@ -43,6 +43,7 @@ namespace COBAShop.ViewModels.Catalog.Products
 
         public string SeoAlias { get; set; }
 
+        [Display(Name = "Hình ảnh")]
         public List<IFormFile> ThumbnailImages { get; set; }
     }
 }

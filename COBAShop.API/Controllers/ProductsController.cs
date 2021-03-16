@@ -181,5 +181,12 @@ namespace COBAShop.API.Controllers
             }
             return Ok(result);
         }
+
+        [HttpGet("getimages/{productId}")]
+        public async Task<IActionResult> GetImages(int productId)
+        {
+            var listImage = await _productService.GetImages(productId);
+            return Ok(listImage);
+        }
     }
 }

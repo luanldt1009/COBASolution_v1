@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -52,5 +53,8 @@ namespace COBAShop.ViewModels.Catalog.Products
         public string ThumbnailImage { get; set; }
 
         public List<string> Categories { get; set; } = new List<string>();
+
+        [Display(Name = "Hình ảnh")]
+        public List<IFormFile> ThumbnailImages { get; set; }
     }
 }

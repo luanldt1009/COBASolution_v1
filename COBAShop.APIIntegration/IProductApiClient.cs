@@ -24,5 +24,7 @@ namespace COBAShop.APIIntegration
         Task<List<ProductVm>> GetLatestProducts(string languageId, int take);
 
         Task<bool> DeleteProduct(int id);
+
+        Task<List<CoreUploadFileVm>> GetImages(int productId);
     }
 }

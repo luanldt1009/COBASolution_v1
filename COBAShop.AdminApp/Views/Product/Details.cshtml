@@ -11,67 +11,74 @@
         <li class="breadcrumb-item"><a href=@Url.Action("Index","Home")>Trang chủ</a></li>
         <li class="breadcrumb-item active">Thông tin sản phẩm</li>
     </ol>
-    <div class="card mb-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class=" mb-12">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Price)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Price)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.OriginalPrice)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.OriginalPrice)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Stock)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Stock)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.ViewCount)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.ViewCount)
+                        </dd>
 
-        <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Price)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Price)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.OriginalPrice)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.OriginalPrice)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Stock)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Stock)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.ViewCount)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.ViewCount)
-                </dd>
-
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Details)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Details)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.SeoDescription)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.SeoDescription)
-                </dd>
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.SeoTitle)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.SeoTitle)
-                </dd>
-            </dl>
-            <a asp-action="Index" class="btn btn-primary">Đóng</a>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Description)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Details)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Details)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.SeoDescription)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.SeoDescription)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.SeoTitle)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.SeoTitle)
+                        </dd>
+                    </dl>
+                    <a asp-action="Index" class="btn btn-primary">Đóng</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-1 mb-1 bg-light text-dark" style="font-weight:bold">Hình ảnh</div>
+            <img class="img-thumbnail" style="height:350px; width:100%; object-fit: contain;" src="@Url.Action("Image", new {id = Model.Id })" />
         </div>
     </div>
 </div>

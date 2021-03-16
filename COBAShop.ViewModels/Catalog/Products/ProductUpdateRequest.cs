@@ -36,6 +36,7 @@ namespace COBAShop.ViewModels.Catalog.Products
 
         public string LanguageId { get; set; }
 
-        public IFormFile ThumbnailImage { get; set; }
+        [Display(Name = "Hình ảnh")]
+        public List<IFormFile> ThumbnailImages { get; set; }
     }
 }

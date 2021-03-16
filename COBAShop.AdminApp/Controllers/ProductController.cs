@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using COBAShop.APIIntegration;
 using COBAShop.Utilities.Constants;
 using COBAShop.ViewModels.Catalog.Products;
+using COBAShop.ViewModels.Comon;
 using COBAShop.ViewModels.System.Users;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,12 +20,14 @@ namespace COBAShop.AdminApp.Controllers
         private readonly IUserApiClient _userApiClient;
         private readonly IProductApiClient _productApiClient;
         private readonly ICategoryApiClient _categoryApiClient;
+        private readonly IHostingEnvironment _env;
 
-        public ProductController(IUserApiClient userApiClient, IProductApiClient productApiClient, ICategoryApiClient categoryApiClient)
+        public ProductController(IUserApiClient userApiClient, IProductApiClient productApiClient, ICategoryApiClient categoryApiClient, IHostingEnvironment env)
         {
             this._userApiClient = userApiClient;
             this._productApiClient = productApiClient;
             this._categoryApiClient = categoryApiClient;
+            this._env = env;
         }
 
         [HttpGet]
@@ -176,7 +181,71 @@ namespace COBAShop.AdminApp.Controllers
             if (string.IsNullOrEmpty(languageId))
                 languageId = "vi";
             var result = await _productApiClient.GetById(id, languageId);
+
+            //lấy ra danh sách hình
             return View(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Image(int id)
+        {
+            if (id > 0)
+            {
+                var files = await _productApiClient.GetImages(id);
+                if (files.Count > 0)
+                {
+                    return File(files.FirstOrDefault().FileContent, "image/jpeg");
+                }
+            }
+            string path = Path.Combine(_env.WebRootPath, "css", "images");
+            var defaultImage = System.IO.File.ReadAllBytes($"{path}/default.png");
+            return File(defaultImage, "image/jpeg");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoryAssign(int id)
+        {
+            var roleAssignRequest = await GetCategoryAssignRequest(id);
+            return View(roleAssignRequest);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CategoryAssign(CategoryAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _productApiClient.CategoryAssign(request.Id, request);
+
+            if (result.IsSuccessed)
+            {
+                TempData["result"] = "Cập nhật danh mục thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", result.Message);
+            var roleAssignRequest = await GetCategoryAssignRequest(request.Id);
+
+            return View(roleAssignRequest);
+        }
+
+        private async Task<CategoryAssignRequest> GetCategoryAssignRequest(int id)
+        {
+            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+
+            var productObj = await _productApiClient.GetById(id, languageId);
+            var categories = await _categoryApiClient.GetAll(languageId);
+            var categoryAssignRequest = new CategoryAssignRequest();
+            foreach (var role in categories)
+            {
+                categoryAssignRequest.Categories.Add(new SelectItem()
+                {
+                    Id = role.Id.ToString(),
+                    Name = role.Name,
+                    Selected = productObj.Categories.Contains(role.Name)
+                });
+            }
+            return categoryAssignRequest;
         }
     }
 }

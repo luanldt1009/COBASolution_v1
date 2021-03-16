@@ -86,16 +86,19 @@ namespace COBAShop.APIIntegration
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
 
             var requestContent = new MultipartFormDataContent();
-            //if (request.ThumbnailImage != null)
-            //{
-            //    byte[] data;
-            //    using (var br = new BinaryReader(request.ThumbnailImage.OpenReadStream()))
-            //    {
-            //        data = br.ReadBytes((int)request.ThumbnailImage.OpenReadStream().Length);
-            //    }
-            //    ByteArrayContent bytes = new ByteArrayContent(data);
-            //    requestContent.Add(bytes, "thumbnailImage", request.ThumbnailImage.FileName);
-            //}
+            if (request.ThumbnailImages!=null&& request.ThumbnailImages.Count > 0)
+            {
+                byte[] data;
+                foreach (var image in request.ThumbnailImages)
+                {
+                    using (var br = new BinaryReader(image.OpenReadStream()))
+                    {
+                        data = br.ReadBytes((int)image.OpenReadStream().Length);
+                    }
+                    ByteArrayContent bytes = new ByteArrayContent(data);
+                    requestContent.Add(bytes, "thumbnailImages", image.FileName);
+                }
+            }
 
             requestContent.Add(new StringContent(request.Price.ToString()), "price");
             requestContent.Add(new StringContent(request.OriginalPrice.ToString()), "originalPrice");
@@ -127,16 +130,18 @@ namespace COBAShop.APIIntegration
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var requestContent = new MultipartFormDataContent();
-
-            if (request.ThumbnailImage != null)
+            if (request.ThumbnailImages!=null&& request.ThumbnailImages.Count > 0)
             {
                 byte[] data;
-                using (var br = new BinaryReader(request.ThumbnailImage.OpenReadStream()))
+                foreach (var image in request.ThumbnailImages)
                 {
-                    data = br.ReadBytes((int)request.ThumbnailImage.OpenReadStream().Length);
+                    using (var br = new BinaryReader(image.OpenReadStream()))
+                    {
+                        data = br.ReadBytes((int)image.OpenReadStream().Length);
+                    }
+                    ByteArrayContent bytes = new ByteArrayContent(data);
+                    requestContent.Add(bytes, "thumbnailImages", image.FileName);
                 }
-                ByteArrayContent bytes = new ByteArrayContent(data);
-                requestContent.Add(bytes, "thumbnailImage", request.ThumbnailImage.FileName);
             }
 
             //requestContent.Add(new StringContent(request.Id.ToString()), "id");
@@ -154,6 +159,13 @@ namespace COBAShop.APIIntegration
 
             var response = await client.PutAsync($"/api/products/" + request.Id, requestContent);
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<List<CoreUploadFileVm>> GetImages(int productId)
+        {
+            var data = await GetListAsync<CoreUploadFileVm>(
+                    $"/api/products/getimages/" + productId);
+            return data;
         }
     }
 }

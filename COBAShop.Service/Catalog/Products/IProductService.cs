@@ -43,5 +43,7 @@ namespace COBAShop.Service.Catalog.Products
         Task<List<ProductVm>> GetFeaturedProducts(string languageId, int take);
 
         Task<List<ProductVm>> GetLatestProducts(string languageId, int take);
+
+        Task<List<CoreUploadFileVm>> GetImages(int productId);
     }
 }

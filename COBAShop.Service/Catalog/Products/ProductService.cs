@@ -95,7 +95,7 @@ namespace COBAShop.Service.Catalog.Products
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            if (request.ThumbnailImages.Count > 0)
+            if (request.ThumbnailImages!=null&& request.ThumbnailImages.Count > 0)
             {
                 foreach (var file in request.ThumbnailImages)
                 {
@@ -197,17 +197,17 @@ namespace COBAShop.Service.Catalog.Products
                         from pic in ppic.DefaultIfEmpty()
                         join c in _context.Categories on pic.CategoryId equals c.Id into picc
                         from c in picc.DefaultIfEmpty()
-                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
-                        from pi in ppi.DefaultIfEmpty()
+                            //join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                            //from pi in ppi.DefaultIfEmpty()
                         where pt.LanguageId == request.LanguageId/* && pi.IsDefault == true*/
-                        select new { p, pt, pic, pi };
+                        select new { p, pt, pic/*, pi*/ };
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(x => x.pt.Name.Contains(request.Keyword));
 
             if (request.CategoryId != null && request.CategoryId != 0)
                 query = query.Where(p => p.pic.CategoryId == request.CategoryId);
-
+            var query1 = query.ToList();
             //3. Paging
             int totalRow = await query.CountAsync();
 
@@ -325,15 +325,38 @@ namespace COBAShop.Service.Catalog.Products
             product.Stock = request.Stock;
             product.Price = request.Price;
             //Save image
-            if (request.ThumbnailImage != null)
+            if (request.ThumbnailImages!=null&& request.ThumbnailImages.Count > 0)
             {
-                //var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.IsDefault == true && i.ProductId == request.Id);
-                //if (thumbnailImage != null)
-                //{
-                //    thumbnailImage.FileSize = request.ThumbnailImage.Length;
-                //    thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);
-                //    _context.ProductImages.Update(thumbnailImage);
-                //}
+                //xóa trong danh sach product image
+                var productImages = await _context.ProductImages.Where(e => e.ProductId == product.Id).ToListAsync();
+                _context.ProductImages.RemoveRange(productImages);
+
+                foreach (var file in request.ThumbnailImages)
+                {
+                    var productImageId = Guid.NewGuid();
+                    using (var ms = new MemoryStream())
+                    {
+                        file.CopyTo(ms);
+                        _context.CoreUploadFiles.Add(new CoreUploadFiles()
+                        {
+                            Id = Guid.NewGuid(),
+                            Created = DateTime.Now,
+                            FileExtension = file.ContentType,
+                            MimeType = file.ContentType,
+                            RefId = productImageId,
+                            FileContent = ms.ToArray()
+                        });
+                        var productImage = new ProductImage()
+                        {
+                            Id = productImageId,
+                            DateCreated = DateTime.Now,
+                            IsDefault = true,
+                            ProductId = product.Id
+                        };
+                        _context.ProductImages.Add(productImage);
+                        _context.SaveChanges();
+                    }
+                }
             }
 
             return await _context.SaveChangesAsync();
@@ -471,6 +494,30 @@ namespace COBAShop.Service.Catalog.Products
                 }).ToListAsync();
 
             return data;
+        }
+
+        public async Task<List<CoreUploadFileVm>> GetImages(int productId)
+        {
+            var listFile = new List<CoreUploadFileVm>();
+            var productImages = await _context.ProductImages.Where(e => e.ProductId == productId).ToListAsync();
+            if (productImages.Count > 0)
+            {
+                foreach (var item in productImages)
+                {
+                    var file = await _context.CoreUploadFiles.Where(e => e.RefId == item.Id).Select(e => new CoreUploadFileVm()
+                    {
+                        Id = e.Id,
+                        RefId = e.RefId,
+                        Created = e.Created,
+                        FileContent = e.FileContent,
+                        FileExtension = e.FileExtension,
+                        Link = e.Link,
+                        MimeType = e.MimeType,
+                    }).FirstOrDefaultAsync();
+                    listFile.Add(file);
+                }
+            }
+            return listFile;
         }
     }
 }

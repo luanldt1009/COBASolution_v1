@@ -60,17 +60,11 @@
                             <span asp-validation-for="SeoTitle" class="text-danger"></span>
                         </div>
 
-                        @*<div class="form-group">
-                                <label asp-for="SeoAlias" class="control-label"></label>
-                                <input asp-for="SeoAlias" class="form-control" />
-                                <span asp-validation-for="SeoAlias" class="text-danger"></span>
-                            </div>*@
-                        @*<div class="form-group">
-                                <label asp-for="LanguageId" class="control-label"></label>
-                                <input asp-for="LanguageId" class="form-control" />
-                                <span asp-validation-for="LanguageId" class="text-danger"></span>
-                            </div>*@
-
+                        <div class="form-group">
+                            <label asp-for="ThumbnailImages" class="control-label"></label>
+                            <input asp-for="ThumbnailImages" type="file" class="form-control" multiple />
+                            <span asp-validation-for="ThumbnailImages" class="text-danger"></span>
+                        </div>
                         <div class="form-group">
                             <input type="submit" value="Create" class="btn btn-primary" />
                             <a class="btn btn-secondary" asp-action="Index">Đóng</a>
