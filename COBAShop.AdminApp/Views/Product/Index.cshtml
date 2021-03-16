@@ -1,29 +1,28 @@
 ﻿@using COBAShop.ViewModels.Comon
-@model PagedResult<COBAShop.ViewModels.System.Users.UserVm>
+@model PagedResult<COBAShop.ViewModels.Catalog.Products.ProductVm>
 
 @{
-    ViewData["Title"] = "Danh sách người dùng";
+    ViewData["Title"] = "Danh sách sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Scripts{
+    <script src="~/js/controller/productController.js"></script>
+ }
 
-    <script src="~/js/controller/userController.js"></script>
-
-}
 <div class="container-fluid">
-    <h1 class="mt-4">Danh sách người dùng</h1>
+    <h1 class="mt-4">Danh sách sản phẩm</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href=@Url.Action("Index","Home")>Trang chủ</a></li>
-        <li class="breadcrumb-item active">Danh sách người dùng</li>
+        <li class="breadcrumb-item active">Danh sách sản phẩm</li>
     </ol>
     <div class="card mb-4">
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6">
-                    <a class="btn btn-success" href=@Url.Action("Create","User")>Thêm mới</a>
+                    <a class="btn btn-success" href=@Url.Action("Create","Product")>Thêm mới</a>
                 </div>
                 <div class="col-md-6 text-right">
-                    <form method="get" asp-action="Index" asp-controller="User">
+                    <form method="get" asp-action="Index" asp-controller="Product">
                         <div class="row">
                             <div class="col-md-2"></div>
                             <div class="col-md-8">
@@ -31,7 +30,7 @@
                             </div>
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-search" title="Tìm kiếm"></i></button>
-                                <a class="btn btn-secondary" href=@Url.Action("Index","User")><i class="fas fa-sync-alt" title="Làm mới"></i></a>
+                                <a class="btn btn-secondary" href=@Url.Action("Index","Product")><i class="fas fa-sync-alt" title="Làm mới"></i></a>
                             </div>
                         </div>
                     </form>
@@ -44,19 +43,19 @@
                     <thead>
                         <tr>
                             <th>
-                                Họ
+                                Mã
                             </th>
                             <th>
                                 Tên
                             </th>
                             <th>
-                                Số điện thoại
+                                Giá nhập
                             </th>
                             <th>
-                                Tài khoản
+                                Giá bán
                             </th>
                             <th>
-                                Email
+                                Số lượng
                             </th>
 
                             <th></th>
@@ -68,24 +67,25 @@
                             <tr>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                    @Html.DisplayFor(modelItem => item.Id)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.LastName)
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OriginalPrice)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                    @Html.DisplayFor(modelItem => item.Price)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Email)
+                                    @Html.DisplayFor(modelItem => item.Stock)
                                 </td>
 
                                 <td width="170px">
-                                    <a class="btn btn-link" href=@Url.Action("Edit","User" ,new {id=item.Id })><i class="fa fa-edit"></i></a>
-                                    <a class="btn btn-link" href=@Url.Action("Details","User" ,new {id=item.Id })> <i class="fa fa-eye"></i></a>
+                                    <a class="btn btn-link" href=@Url.Action("Edit","Product" ,new {id=item.Id })><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-link" href=@Url.Action("Details","Product" ,new {id=item.Id })> <i class="fa fa-eye"></i></a>
                                     <a class="btn btn-link btnDelete" data-id="@item.Id"> <i class="fa fa-trash"></i></a>
                                 </td>
                             </tr>

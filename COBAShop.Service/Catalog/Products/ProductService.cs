@@ -21,33 +21,19 @@ namespace COBAShop.Service.Catalog.Products
     public class ProductService : IProductService
     {
         public readonly COBAShopDbContext _context;
-        public readonly IStorageService _storageService;
+
+        // public readonly IStorageService _storageService;
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
 
-        public ProductService(COBAShopDbContext _context, IStorageService _storageService)
+        public ProductService(COBAShopDbContext _context)
+        //, IStorageService _storageService)
         {
             this._context = _context;
-            this._storageService = _storageService;
+            //this._storageService = _storageService;
         }
 
         public async Task<int> AddImage(int productId, ProductImageCreateRequest request)
         {
-            var productImage = new ProductImage()
-            {
-                Caption = request.Caption,
-                DateCreated = DateTime.Now,
-                IsDefault = request.IsDefault,
-                ProductId = productId,
-                SortOrder = request.SortOrder
-            };
-            if (request.ImageFile != null)
-            {
-                productImage.ImagePath = await this.SaveFile(request.ImageFile);
-                productImage.FileSize = request.ImageFile.Length;
-            }
-            _context.ProductImages.Add(productImage);
-            await _context.SaveChangesAsync();
-            return productImage.Id;
             throw new NotImplementedException();
         }
 
@@ -55,7 +41,7 @@ namespace COBAShop.Service.Catalog.Products
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
-            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            // await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
 
@@ -105,23 +91,39 @@ namespace COBAShop.Service.Catalog.Products
                 DateCreated = DateTime.Now,
                 ProductTranslations = translations,
             };
-            if (request.ThumbnailImage != null)
-            {
-                product.ProductImages = new List<ProductImage>()
-                {
-                    new ProductImage()
-                    {
-                        Caption="Thumbnail image",
-                        DateCreated=DateTime.Now,
-                        FileSize=request.ThumbnailImage.Length,
-                        ImagePath=await this.SaveFile(request.ThumbnailImage),
-                        IsDefault=true,
-                        SortOrder=1,
-                    }
-                };
-            }
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
+
+            if (request.ThumbnailImages.Count > 0)
+            {
+                foreach (var file in request.ThumbnailImages)
+                {
+                    var productImageId = Guid.NewGuid();
+                    using (var ms = new MemoryStream())
+                    {
+                        file.CopyTo(ms);
+                        _context.CoreUploadFiles.Add(new CoreUploadFiles()
+                        {
+                            Id = Guid.NewGuid(),
+                            Created = DateTime.Now,
+                            FileExtension = file.ContentType,
+                            MimeType = file.ContentType,
+                            RefId = productImageId,
+                            FileContent = ms.ToArray()
+                        });
+                        var productImage = new ProductImage()
+                        {
+                            Id = productImageId,
+                            DateCreated = DateTime.Now,
+                            IsDefault = true,
+                            ProductId = product.Id
+                        };
+                        _context.ProductImages.Add(productImage);
+                        _context.SaveChanges();
+                    }
+                }
+            }
             return product.Id;
         }
 
@@ -133,10 +135,10 @@ namespace COBAShop.Service.Catalog.Products
                 throw new COBAShopException($"Không tìm thấy Sản phẩm: {productId}");
             }
             var images = _context.ProductImages.Where(x => x.ProductId == productId);
-            foreach (var item in images)
-            {
-                await _storageService.DeteleFileAsync(item.ImagePath);
-            }
+            //foreach (var item in images)
+            //{
+            //    await _storageService.DeteleFileAsync(item.ImagePath);
+            //}
             _context.Products.Remove(product);
             return await _context.SaveChangesAsync();
         }
@@ -191,9 +193,12 @@ namespace COBAShop.Service.Catalog.Products
         {
             var query = from p in _context.Products
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
-                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId
-                        join c in _context.Categories on pic.CategoryId equals c.Id
-                        join pi in _context.ProductImages on p.Id equals pi.ProductId
+                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                        from pic in ppic.DefaultIfEmpty()
+                        join c in _context.Categories on pic.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                        from pi in ppi.DefaultIfEmpty()
                         where pt.LanguageId == request.LanguageId/* && pi.IsDefault == true*/
                         select new { p, pt, pic, pi };
             //2. filter
@@ -201,9 +206,7 @@ namespace COBAShop.Service.Catalog.Products
                 query = query.Where(x => x.pt.Name.Contains(request.Keyword));
 
             if (request.CategoryId != null && request.CategoryId != 0)
-            {
                 query = query.Where(p => p.pic.CategoryId == request.CategoryId);
-            }
 
             //3. Paging
             int totalRow = await query.CountAsync();
@@ -225,9 +228,8 @@ namespace COBAShop.Service.Catalog.Products
                     SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
-                    ThumbnailImage = x.pi.ImagePath
+                    // ThumbnailImage = x.pi.ImagePath
                 }).ToListAsync();
-
             //4. Select and projection
             var pagedResult = new PagedResult<ProductVm>()
             {
@@ -257,7 +259,7 @@ namespace COBAShop.Service.Catalog.Products
                 Id = product.Id,
                 DateCreated = product.DateCreated,
                 Description = productTranslation != null ? productTranslation.Description : null,
-                LanguageId = productTranslation.LanguageId,
+                LanguageId = productTranslation.LanguageId != null ? productTranslation.LanguageId : null,
                 Details = productTranslation != null ? productTranslation.Details : null,
                 Name = productTranslation != null ? productTranslation.Name : null,
                 OriginalPrice = product.OriginalPrice,
@@ -268,7 +270,7 @@ namespace COBAShop.Service.Catalog.Products
                 Stock = product.Stock,
                 ViewCount = product.ViewCount,
                 Categories = categories,
-                ThumbnailImage = image != null ? image.ImagePath : "no-image.jpg"
+                // ThumbnailImage = image != null ? image.ImagePath : "no-image.jpg"
             };
             return productViewModel;
         }
@@ -281,11 +283,11 @@ namespace COBAShop.Service.Catalog.Products
 
             var viewModel = new ProductImageVm()
             {
-                Caption = image.Caption,
-                DateCreated = image.DateCreated,
-                FileSize = image.FileSize,
-                Id = image.Id,
-                ImagePath = image.ImagePath,
+                //Caption = image.Caption,
+                //DateCreated = image.DateCreated,
+                //FileSize = image.FileSize,
+                //Id = image.Id,
+                //ImagePath = image.ImagePath,
                 IsDefault = image.IsDefault,
                 ProductId = image.ProductId,
                 SortOrder = image.SortOrder
@@ -295,18 +297,7 @@ namespace COBAShop.Service.Catalog.Products
 
         public async Task<List<ProductImageVm>> GetListImages(int productId)
         {
-            return await _context.ProductImages.Where(x => x.ProductId == productId)
-            .Select(i => new ProductImageVm()
-            {
-                Caption = i.Caption,
-                DateCreated = i.DateCreated,
-                FileSize = i.FileSize,
-                Id = i.Id,
-                ImagePath = i.ImagePath,
-                IsDefault = i.IsDefault,
-                ProductId = i.ProductId,
-                SortOrder = i.SortOrder
-            }).ToListAsync();
+            throw new NotImplementedException();
         }
 
         public async Task<int> RemoveImage(int imageId)
@@ -327,22 +318,22 @@ namespace COBAShop.Service.Catalog.Products
             if (product == null || productTranslations == null) throw new COBAShopException($"Cannot find a product with id: {request.Id}");
 
             productTranslations.Name = request.Name;
-            productTranslations.SeoAlias = request.SeoAlias;
             productTranslations.SeoDescription = request.SeoDescription;
             productTranslations.SeoTitle = request.SeoTitle;
             productTranslations.Description = request.Description;
             productTranslations.Details = request.Details;
-
+            product.Stock = request.Stock;
+            product.Price = request.Price;
             //Save image
             if (request.ThumbnailImage != null)
             {
-                var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.IsDefault == true && i.ProductId == request.Id);
-                if (thumbnailImage != null)
-                {
-                    thumbnailImage.FileSize = request.ThumbnailImage.Length;
-                    thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);
-                    _context.ProductImages.Update(thumbnailImage);
-                }
+                //var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(i => i.IsDefault == true && i.ProductId == request.Id);
+                //if (thumbnailImage != null)
+                //{
+                //    thumbnailImage.FileSize = request.ThumbnailImage.Length;
+                //    thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);
+                //    _context.ProductImages.Update(thumbnailImage);
+                //}
             }
 
             return await _context.SaveChangesAsync();
@@ -354,12 +345,12 @@ namespace COBAShop.Service.Catalog.Products
             if (productImage == null)
                 throw new COBAShopException($"Cannot find an image with id {imageId}");
 
-            if (request.ImageFile != null)
-            {
-                productImage.ImagePath = await this.SaveFile(request.ImageFile);
-                productImage.FileSize = request.ImageFile.Length;
-            }
-            _context.ProductImages.Update(productImage);
+            //if (request.ImageFile != null)
+            //{
+            //    productImage.ImagePath = await this.SaveFile(request.ImageFile);
+            //    productImage.FileSize = request.ImageFile.Length;
+            //}
+            //_context.ProductImages.Update(productImage);
             return await _context.SaveChangesAsync();
         }
 
@@ -419,8 +410,9 @@ namespace COBAShop.Service.Catalog.Products
                         from pi in ppi.DefaultIfEmpty()
                         join c in _context.Categories on pic.CategoryId equals c.Id into picc
                         from c in picc.DefaultIfEmpty()
-                        where pt.LanguageId == languageId && (pi == null || pi.IsDefault == true)
-                        && p.IsFeatured == true
+                        where
+                        //pt.LanguageId == languageId && (pi == null || pi.IsDefault == true) &&
+                        p.IsFeatured == true
                         select new { p, pt, pic, pi };
 
             var data = await query.OrderByDescending(x => x.p.DateCreated).Take(take)
@@ -439,7 +431,7 @@ namespace COBAShop.Service.Catalog.Products
                     SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
-                    ThumbnailImage = x.pi.ImagePath
+                    //ThumbnailImage = x.pi.ImagePath
                 }).ToListAsync();
 
             return data;
@@ -456,7 +448,7 @@ namespace COBAShop.Service.Catalog.Products
                         from pi in ppi.DefaultIfEmpty()
                         join c in _context.Categories on pic.CategoryId equals c.Id into picc
                         from c in picc.DefaultIfEmpty()
-                        where pt.LanguageId == languageId && (pi == null || pi.IsDefault == true)
+                            // where pt.LanguageId == languageId && (pi == null || pi.IsDefault == true)
                         select new { p, pt, pic, pi };
 
             var data = await query.OrderByDescending(x => x.p.DateCreated).Take(take)
@@ -475,7 +467,7 @@ namespace COBAShop.Service.Catalog.Products
                     SeoTitle = x.pt.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount,
-                    ThumbnailImage = x.pi.ImagePath
+                    // ThumbnailImage = x.pi.ImagePath
                 }).ToListAsync();
 
             return data;

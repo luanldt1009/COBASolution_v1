@@ -45,7 +45,17 @@ namespace COBAShop.API
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<COBAShopDbContext>()
                 .AddDefaultTokenProviders();
-
+            // Truy cập IdentityOptions
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Thiết lập về Password
+                options.Password.RequireDigit = false; // Không bắt phải có số
+                options.Password.RequireLowercase = false; // Không bắt phải có chữ thường
+                options.Password.RequireNonAlphanumeric = false; // Không bắt ký tự đặc biệt
+                options.Password.RequireUppercase = false; // Không bắt buộc chữ in
+                options.Password.RequiredLength = 3; // Số ký tự tối thiểu của password
+                options.Password.RequiredUniqueChars = 0; // Số ký tự riêng biệt
+            });
             //Declare DI
             services.AddTransient<IStorageService, StorageService>();
             services.AddTransient<IProductService, ProductService>();

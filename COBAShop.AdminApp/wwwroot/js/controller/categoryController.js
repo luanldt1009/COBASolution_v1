@@ -1,26 +1,26 @@
-﻿var userController = {
+﻿var categoryController = {
     init: function () {
-        userController.register();
+        categoryController.register();
     },
     register: function () {
-        $('.btnDelete').off('click').on('click', function (e) {
+        $(".btnDelete").off("click").on("click", function (e) {
             var id = $(this).data('id');
-            userController.deleteUser(id);
-        })
+            categoryController.deleteCategory(id)
+        });
     },
-
-    deleteUser: function (id) {
+    deleteCategory: function (id) {
         bootbox.confirm("Bạn có muốn xóa?", function (result) {
             if (result) {
                 $.ajax({
-                    url: 'User/Delete',
+                    url: 'Category/Delete',
                     type: "GET",
                     dataType: "json",
                     data: { id: id },
                     success: function (res) {
                         if (res.status) {
                             bootbox.alert("Xóa thành công", function () {
-                                window.location.reload();
+                                window.location.reload()
+                                //categoryController.loadData();
                             });
                         }
                         else {
@@ -31,6 +31,5 @@
             }
         })
     },
-}
-
-userController.init();
+};
+categoryController.init();

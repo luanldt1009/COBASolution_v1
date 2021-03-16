@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COBAShop.API.Controllers
 {
+    //api/products
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -70,7 +71,7 @@ namespace COBAShop.API.Controllers
 
             var product = await _productService.GetById(productId, request.LanguageId);
 
-            return CreatedAtAction(nameof(GetById), new { id = productId }, product);
+            return Ok(product);
         }
 
         [HttpPut("{productId}")]
@@ -84,7 +85,7 @@ namespace COBAShop.API.Controllers
             }
             request.Id = productId;
             var affectedResult = await _productService.Update(request);
-            if (affectedResult == 0)
+            if (affectedResult < 0)
                 return BadRequest();
             return Ok();
         }

@@ -10,25 +10,24 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace COBAShop.Data.Migrations
 {
     [DbContext(typeof(COBAShopDbContext))]
-    [Migration("20210308084546_COBAShop_V2")]
-    partial class COBAShop_V2
+    [Migration("20210316033804_COBAShop_v1")]
+    partial class COBAShop_v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.12")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("COBAShop.Data.Entities.AppConfig", b =>
                 {
                     b.Property<string>("Key")
-                        .HasColumnType("nvarchar(450)");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired();
 
                     b.HasKey("Key");
 
@@ -55,22 +54,17 @@ namespace COBAShop.Data.Migrations
             modelBuilder.Entity("COBAShop.Data.Entities.AppRole", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ConcurrencyStamp");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("NormalizedName");
 
                     b.HasKey("Id");
 
@@ -80,7 +74,7 @@ namespace COBAShop.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "7c44c49b-f8c9-4b57-8ec6-f01b3729aba0",
+                            ConcurrencyStamp = "330b16bd-1178-4212-b504-3cd6cfc63d6f",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -90,63 +84,45 @@ namespace COBAShop.Data.Migrations
             modelBuilder.Entity("COBAShop.Data.Entities.AppUser", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                    b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ConcurrencyStamp");
 
-                    b.Property<DateTime>("Dob")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("Dob");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Email");
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                    b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                    b.Property<bool>("LockoutEnabled");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("NormalizedEmail");
 
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("NormalizedUserName");
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("PasswordHash");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("PhoneNumber");
 
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                    b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("SecurityStamp");
 
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                    b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
@@ -157,7 +133,7 @@ namespace COBAShop.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "316cfe83-2138-4269-be7d-377dc6cd02f9",
+                            ConcurrencyStamp = "3c08938a-a88c-43cb-bf34-a5dfa1d41913",
                             Dob = new DateTime(2021, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
@@ -166,7 +142,7 @@ namespace COBAShop.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAvDbinsRa5iw2P8x/v+eTG8h4l+VSVCheZtoOKqz0R1tH+3ZSEEkp0UEPBbmPrrTg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHYjmhTj4o4n9zzU5V7eEKEDv7FhzSBQlZTDASlNrUSJWbdn3hadfVE0a6ckKhQUMA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -178,25 +154,17 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("DateCreated");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("Price");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<int>("ProductId");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<int>("Quantity");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -211,23 +179,16 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsShowOnHome")
-                        .HasColumnType("bit");
+                    b.Property<bool>("IsShowOnHome");
 
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
+                    b.Property<int?>("ParentId");
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                    b.Property<int>("SortOrder");
 
                     b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
                         .HasDefaultValue(1);
 
                     b.HasKey("Id");
@@ -283,36 +244,27 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<int>("CategoryId");
 
                     b.Property<string>("LanguageId")
                         .IsRequired()
-                        .HasColumnType("varchar(5)")
                         .HasMaxLength(5)
                         .IsUnicode(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("SeoAlias")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("SeoDescription")
-                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("SeoTitle")
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.HasKey("Id");
@@ -390,51 +342,63 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired();
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<int>("Status");
 
                     b.HasKey("Id");
 
                     b.ToTable("Contacts");
                 });
 
+            modelBuilder.Entity("COBAShop.Data.Entities.CoreUploadFiles", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<byte[]>("FileContent");
+
+                    b.Property<string>("FileExtension");
+
+                    b.Property<string>("Link");
+
+                    b.Property<string>("MimeType");
+
+                    b.Property<Guid>("RefId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CoreUploadFiles");
+                });
+
             modelBuilder.Entity("COBAShop.Data.Entities.Language", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(5)")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(5)
                         .IsUnicode(false);
 
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
+                    b.Property<bool>("IsDefault");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.HasKey("Id");
@@ -460,40 +424,30 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("OrderDate");
 
                     b.Property<string>("ShipAddress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("ShipEmail")
                         .IsRequired()
-                        .HasColumnType("varchar(50)")
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
                     b.Property<string>("ShipName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("ShipPhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<int>("Status");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -504,17 +458,13 @@ namespace COBAShop.Data.Migrations
 
             modelBuilder.Entity("COBAShop.Data.Entities.OrderDetail", b =>
                 {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<int>("OrderId");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<int>("ProductId");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("Price");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<int>("Quantity");
 
                     b.HasKey("OrderId", "ProductId");
 
@@ -527,31 +477,22 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("DateCreated");
 
-                    b.Property<bool?>("IsFeatured")
-                        .HasColumnType("bit");
+                    b.Property<bool?>("IsFeatured");
 
-                    b.Property<decimal>("OriginalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("OriginalPrice");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("Price");
 
                     b.Property<int>("Stock")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
                         .HasDefaultValue(0);
 
                     b.Property<int>("ViewCount")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
                         .HasDefaultValue(0);
 
                     b.HasKey("Id");
@@ -562,7 +503,7 @@ namespace COBAShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2021, 3, 8, 15, 45, 44, 374, DateTimeKind.Local).AddTicks(9597),
+                            DateCreated = new DateTime(2021, 3, 16, 10, 38, 3, 879, DateTimeKind.Local).AddTicks(6376),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 0,
@@ -572,36 +513,16 @@ namespace COBAShop.Data.Migrations
 
             modelBuilder.Entity("COBAShop.Data.Entities.ProductImage", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Caption")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                    b.Property<DateTime>("DateCreated");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsDefault");
 
-                    b.Property<long>("FileSize")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ProductId");
 
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                    b.Property<int>("SortOrder");
 
                     b.HasKey("Id");
 
@@ -612,11 +533,9 @@ namespace COBAShop.Data.Migrations
 
             modelBuilder.Entity("COBAShop.Data.Entities.ProductInCategory", b =>
                 {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<int>("CategoryId");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<int>("ProductId");
 
                     b.HasKey("CategoryId", "ProductId");
 
@@ -636,42 +555,29 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Description");
 
                     b.Property<string>("Details")
-                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("LanguageId")
                         .IsRequired()
-                        .HasColumnType("varchar(5)")
                         .HasMaxLength(5)
                         .IsUnicode(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<int>("ProductId");
 
-                    b.Property<string>("SeoAlias")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                    b.Property<string>("SeoAlias");
 
-                    b.Property<string>("SeoDescription")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("SeoDescription");
 
-                    b.Property<string>("SeoTitle")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("SeoTitle");
 
                     b.HasKey("Id");
 
@@ -700,38 +606,26 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("ApplyForAll")
-                        .HasColumnType("bit");
+                    b.Property<bool>("ApplyForAll");
 
-                    b.Property<decimal?>("DiscountAmount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal?>("DiscountAmount");
 
-                    b.Property<int?>("DiscountPercent")
-                        .HasColumnType("int");
+                    b.Property<int?>("DiscountPercent");
 
-                    b.Property<DateTime>("FromDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("FromDate");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired();
 
-                    b.Property<string>("ProductCategoryId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ProductCategoryId");
 
-                    b.Property<string>("ProductIds")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ProductIds");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<int>("Status");
 
-                    b.Property<DateTime>("ToDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("ToDate");
 
                     b.HasKey("Id");
 
@@ -742,35 +636,26 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
+                    b.Property<int>("SortOrder");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<int>("Status");
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.HasKey("Id");
@@ -844,37 +729,25 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("Amount");
 
-                    b.Property<string>("ExternalTransaction")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ExternalTransaction");
 
-                    b.Property<decimal>("Fee")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("Fee");
 
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Message");
 
-                    b.Property<string>("Provider")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Provider");
 
-                    b.Property<string>("Result")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Result");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<int>("Status");
 
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("TransactionDate");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -887,17 +760,13 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ClaimType");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ClaimValue");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("RoleId");
 
                     b.HasKey("Id");
 
@@ -908,17 +777,13 @@ namespace COBAShop.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ClaimType");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ClaimValue");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -928,17 +793,13 @@ namespace COBAShop.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ProviderDisplayName");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ProviderKey");
 
                     b.HasKey("UserId");
 
@@ -947,11 +808,9 @@ namespace COBAShop.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("UserId");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("RoleId");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -968,17 +827,13 @@ namespace COBAShop.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Value");
 
                     b.HasKey("UserId");
 
@@ -990,14 +845,12 @@ namespace COBAShop.Data.Migrations
                     b.HasOne("COBAShop.Data.Entities.Product", "Product")
                         .WithMany("Carts")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("COBAShop.Data.Entities.AppUser", "AppUser")
                         .WithMany("Carts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("COBAShop.Data.Entities.CategoryTranslation", b =>
@@ -1005,14 +858,12 @@ namespace COBAShop.Data.Migrations
                     b.HasOne("COBAShop.Data.Entities.Category", "Category")
                         .WithMany("CategoryTranslations")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("COBAShop.Data.Entities.Language", "Language")
                         .WithMany("CategoryTranslations")
                         .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("COBAShop.Data.Entities.Order", b =>
@@ -1020,8 +871,7 @@ namespace COBAShop.Data.Migrations
                     b.HasOne("COBAShop.Data.Entities.AppUser", "AppUser")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("COBAShop.Data.Entities.OrderDetail", b =>
@@ -1029,14 +879,12 @@ namespace COBAShop.Data.Migrations
                     b.HasOne("COBAShop.Data.Entities.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("COBAShop.Data.Entities.Product", "Product")
                         .WithMany("OrderDetails")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("COBAShop.Data.Entities.ProductImage", b =>
@@ -1044,8 +892,7 @@ namespace COBAShop.Data.Migrations
                     b.HasOne("COBAShop.Data.Entities.Product", "Product")
                         .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("COBAShop.Data.Entities.ProductInCategory", b =>
@@ -1053,14 +900,12 @@ namespace COBAShop.Data.Migrations
                     b.HasOne("COBAShop.Data.Entities.Category", "Category")
                         .WithMany("ProductInCategories")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("COBAShop.Data.Entities.Product", "Product")
                         .WithMany("ProductInCategories")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("COBAShop.Data.Entities.ProductTranslation", b =>
@@ -1068,14 +913,12 @@ namespace COBAShop.Data.Migrations
                     b.HasOne("COBAShop.Data.Entities.Language", "Language")
                         .WithMany("ProductTranslations")
                         .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("COBAShop.Data.Entities.Product", "Product")
                         .WithMany("ProductTranslations")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("COBAShop.Data.Entities.Transaction", b =>
@@ -1083,8 +926,7 @@ namespace COBAShop.Data.Migrations
                     b.HasOne("COBAShop.Data.Entities.AppUser", "AppUser")
                         .WithMany("Transactions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

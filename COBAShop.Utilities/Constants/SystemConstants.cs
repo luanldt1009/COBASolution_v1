@@ -11,7 +11,7 @@ namespace COBAShop.Utilities.Constants
 
         public class AppSettings
         {
-            public const string DefaultLanguageId = "DefaultLanguegeId";
+            public const string DefaultLanguageId = "DefaultLanguageId";
             public const string Token = "Token";
             public const string BaseAddress = "BaseAddress";
         }

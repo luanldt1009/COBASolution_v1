@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace COBAShop.Data.Migrations
 {
-    public partial class COBAShop_V1 : Migration
+    public partial class COBAShop_v1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,7 +25,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -54,7 +55,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -137,7 +138,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     SortOrder = table.Column<int>(nullable: false),
                     IsShowOnHome = table.Column<bool>(nullable: false),
                     ParentId = table.Column<int>(nullable: true),
@@ -153,7 +154,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Email = table.Column<string>(maxLength: 200, nullable: false),
                     PhoneNumber = table.Column<string>(maxLength: 200, nullable: false),
@@ -163,6 +164,23 @@ namespace COBAShop.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contacts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CoreUploadFiles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    FileContent = table.Column<byte[]>(nullable: true),
+                    FileExtension = table.Column<string>(nullable: true),
+                    MimeType = table.Column<string>(nullable: true),
+                    Link = table.Column<string>(nullable: true),
+                    RefId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoreUploadFiles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,7 +201,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Price = table.Column<decimal>(nullable: false),
                     OriginalPrice = table.Column<decimal>(nullable: false),
                     Stock = table.Column<int>(nullable: false, defaultValue: 0),
@@ -201,7 +219,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FromDate = table.Column<DateTime>(nullable: false),
                     ToDate = table.Column<DateTime>(nullable: false),
                     ApplyForAll = table.Column<bool>(nullable: false),
@@ -222,7 +240,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Description = table.Column<string>(maxLength: 200, nullable: false),
                     Url = table.Column<string>(maxLength: 200, nullable: false),
@@ -240,7 +258,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     OrderDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false),
                     ShipName = table.Column<string>(maxLength: 200, nullable: false),
@@ -265,7 +283,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TransactionDate = table.Column<DateTime>(nullable: false),
                     ExternalTransaction = table.Column<string>(nullable: true),
                     Amount = table.Column<decimal>(nullable: false),
@@ -292,7 +310,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CategoryId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     SeoDescription = table.Column<string>(maxLength: 500, nullable: true),
@@ -322,7 +340,7 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ProductId = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
@@ -350,15 +368,11 @@ namespace COBAShop.Data.Migrations
                 name: "ProductImages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
-                    ImagePath = table.Column<string>(maxLength: 200, nullable: false),
-                    Caption = table.Column<string>(maxLength: 200, nullable: true),
                     IsDefault = table.Column<bool>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
-                    SortOrder = table.Column<int>(nullable: false),
-                    FileSize = table.Column<long>(nullable: false)
+                    SortOrder = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -400,14 +414,14 @@ namespace COBAShop.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ProductId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Details = table.Column<string>(maxLength: 500, nullable: true),
                     SeoDescription = table.Column<string>(nullable: true),
                     SeoTitle = table.Column<string>(nullable: true),
-                    SeoAlias = table.Column<string>(maxLength: 200, nullable: false),
+                    SeoAlias = table.Column<string>(nullable: true),
                     LanguageId = table.Column<string>(unicode: false, maxLength: 5, nullable: false)
                 },
                 constraints: table =>
@@ -466,7 +480,7 @@ namespace COBAShop.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
-                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "a4ada732-36d9-41c8-84ae-5afc3c819bd2", "Administrator role", "admin", "admin" });
+                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "330b16bd-1178-4212-b504-3cd6cfc63d6f", "Administrator role", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
@@ -476,7 +490,7 @@ namespace COBAShop.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "3bc5deee-8a9a-4799-a229-c70009914a08", new DateTime(2021, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", true, "super", "admin", false, null, "admin@gmail.com", "admin", "AQAAAAEAACcQAAAAEKBa8lTU33omYMKFJ9mv5QbJS+aAsyy6pfCQQmJROfiUb6EbKn/Eq00mzXNQZD+dsw==", null, false, "", false, "admin" });
+                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "3c08938a-a88c-43cb-bf34-a5dfa1d41913", new DateTime(2021, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", true, "super", "admin", false, null, "admin@gmail.com", "admin", "AQAAAAEAACcQAAAAEHYjmhTj4o4n9zzU5V7eEKEDv7FhzSBQlZTDASlNrUSJWbdn3hadfVE0a6ckKhQUMA==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -503,7 +517,7 @@ namespace COBAShop.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "DateCreated", "IsFeatured", "OriginalPrice", "Price" },
-                values: new object[] { 1, new DateTime(2021, 3, 8, 15, 41, 39, 682, DateTimeKind.Local).AddTicks(1328), null, 100000m, 200000m });
+                values: new object[] { 1, new DateTime(2021, 3, 16, 10, 38, 3, 879, DateTimeKind.Local).AddTicks(6376), null, 100000m, 200000m });
 
             migrationBuilder.InsertData(
                 table: "Slides",
@@ -628,6 +642,9 @@ namespace COBAShop.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Contacts");
+
+            migrationBuilder.DropTable(
+                name: "CoreUploadFiles");
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");

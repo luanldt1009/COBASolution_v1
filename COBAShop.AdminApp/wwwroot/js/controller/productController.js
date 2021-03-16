@@ -1,19 +1,18 @@
-﻿var userController = {
+﻿var productController = {
     init: function () {
-        userController.register();
+        productController.register();
     },
     register: function () {
-        $('.btnDelete').off('click').on('click', function (e) {
+        $(".btnDelete").off("click").on("click", function (e) {
             var id = $(this).data('id');
-            userController.deleteUser(id);
-        })
+            productController.deleteProduct(id);
+        });
     },
-
-    deleteUser: function (id) {
+    deleteProduct: function (id) {
         bootbox.confirm("Bạn có muốn xóa?", function (result) {
             if (result) {
                 $.ajax({
-                    url: 'User/Delete',
+                    url: 'Product/Delete',
                     type: "GET",
                     dataType: "json",
                     data: { id: id },
@@ -31,6 +30,5 @@
             }
         })
     },
-}
-
-userController.init();
+};
+productController.init();

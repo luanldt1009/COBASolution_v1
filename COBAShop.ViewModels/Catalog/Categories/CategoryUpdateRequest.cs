@@ -5,11 +5,12 @@ using System.Text;
 
 namespace COBAShop.ViewModels.Catalog.Categories
 {
-    public class CategoryVm
+    public class CategoryUpdateRequest
     {
         public int Id { get; set; }
 
         [Display(Name = "Tên danh mục")]
+        [Required(ErrorMessage = "Tên danh mục là trường bắt buộc")]
         public string Name { get; set; }
 
         [Display(Name = "Danh mục cha")]
@@ -25,23 +26,14 @@ namespace COBAShop.ViewModels.Catalog.Categories
         public string LanguageId { get; set; }
 
         [Display(Name = "Số thứ tự")]
+        [Required(ErrorMessage = "Số thứ tự là trường bắt buộc")]
         public int SortOrder { get; set; }
 
         [Display(Name = "Cho phép hiển thị")]
+        [Required(ErrorMessage = "Cho phép hiển thị là trường bắt buộc")]
         public bool IsShowOnHome { get; set; }
 
         [Display(Name = "Trạng thái")]
         public int Status { get; set; }
-
-        public string StatusName
-        {
-            get
-            {
-                if (Status == 0)
-                    return "Khóa";
-                else
-                    return "Hoạt động";
-            }
-        }
     }
 }

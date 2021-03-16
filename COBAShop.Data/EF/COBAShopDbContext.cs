@@ -65,5 +65,6 @@ namespace COBAShop.Data.EF
         public DbSet<Promotion> Promotions { get; set; }
         public DbSet<Slide> Slides { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<CoreUploadFiles> CoreUploadFiles { get; set; }
     }
 }

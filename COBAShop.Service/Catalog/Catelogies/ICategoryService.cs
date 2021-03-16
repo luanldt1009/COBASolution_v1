@@ -1,4 +1,5 @@
 ﻿using COBAShop.ViewModels.Catalog.Categories;
+using COBAShop.ViewModels.Comon;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,14 @@ namespace COBAShop.Service.Catalog.Catelogies
     {
         Task<List<CategoryVm>> GetAll(string languageId);
 
+        Task<PagedResult<CategoryVm>> GetAllPaging(GetCategoryPagingRequest request);
+
         Task<CategoryVm> GetById(string languageId, int id);
+
+        Task<int> Create(CategoryCreateRequest request);
+
+        Task<int> Update(CategoryUpdateRequest request);
+
+        Task<int> Delete(int categoryId);
     }
 }

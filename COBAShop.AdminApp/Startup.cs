@@ -40,32 +40,6 @@ namespace COBAShop.AdminApp
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddTransient<IUserApiClient, UserApiClient>();
-            //services.AddTransient<IRoleApiClient, RoleApiClient>();
-            //services.AddTransient<ILanguageApiClient, LanguageApiClient>();
-            //services.AddTransient<IProductApiClient, ProductApiClient>();
-            //services.AddTransient<ICategoryApiClient, CategoryApiClient>();
-
-            //            IMvcBuilder builder = services.AddRazorPages();
-            //            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-            //#if DEBUG
-            //            if (environment == Environments.Development)
-            //            {
-            //                builder.AddRazorRuntimeCompilation();
-            //            }
-            //#endif
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            //services.AddSession(options =>
-            //{
-            //    options.IdleTimeout = TimeSpan.FromMinutes(30);
-            //});
-
-            services.AddDistributedMemoryCache();
-            services.AddMvc().AddSessionStateTempDataProvider();
             services.AddSession(options =>
             {
                 options.Cookie.Name = "TanvirArjel.Session";
@@ -78,6 +52,18 @@ namespace COBAShop.AdminApp
                 options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<IRoleApiClient, RoleApiClient>();
+            services.AddTransient<ILanguageApiClient, LanguageApiClient>();
+            services.AddTransient<IProductApiClient, ProductApiClient>();
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDistributedMemoryCache();
+            services.AddMvc().AddSessionStateTempDataProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

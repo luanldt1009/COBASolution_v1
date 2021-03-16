@@ -1,0 +1,66 @@
+﻿@model COBAShop.ViewModels.Catalog.Categories.CategoryVm
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Thông tin danh mục</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href=@Url.Action("Index","Home")>Trang chủ</a></li>
+        <li class="breadcrumb-item active">Thông tin danh mục</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            <dl class="row">
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ParentId)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ParentId)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.SeoDescription)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.SeoDescription)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.SeoTitle)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.SeoTitle)
+                </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.SortOrder)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.SortOrder)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.IsShowOnHome)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IsShowOnHome)
+                </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.StatusName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.StatusName)
+                </dd>
+            </dl>
+            <a asp-action="Index" class="btn btn-primary">Đóng</a>
+        </div>
+    </div>
+</div>
