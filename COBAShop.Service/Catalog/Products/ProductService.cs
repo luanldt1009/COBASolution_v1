@@ -95,7 +95,7 @@ namespace COBAShop.Service.Catalog.Products
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            if (request.ThumbnailImages!=null&& request.ThumbnailImages.Count > 0)
+            if (request.ThumbnailImages != null && request.ThumbnailImages.Count > 0)
             {
                 foreach (var file in request.ThumbnailImages)
                 {
@@ -193,21 +193,20 @@ namespace COBAShop.Service.Catalog.Products
         {
             var query = from p in _context.Products
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
-                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
-                        from pic in ppic.DefaultIfEmpty()
-                        join c in _context.Categories on pic.CategoryId equals c.Id into picc
-                        from c in picc.DefaultIfEmpty()
-                            //join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
-                            //from pi in ppi.DefaultIfEmpty()
+                        //join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                        //from pic in ppic.DefaultIfEmpty()
+                        //join c in _context.Categories on pic.CategoryId equals c.Id into picc
+                        //from c in picc.DefaultIfEmpty()
+                        //join pi in _context.ProductImages on p.Id equals pi.ProductId into ppi
+                        //from pi in ppi.DefaultIfEmpty()
                         where pt.LanguageId == request.LanguageId/* && pi.IsDefault == true*/
-                        select new { p, pt, pic/*, pi*/ };
+                        select new { p, pt/*, pic, pi*/ };
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(x => x.pt.Name.Contains(request.Keyword));
 
-            if (request.CategoryId != null && request.CategoryId != 0)
-                query = query.Where(p => p.pic.CategoryId == request.CategoryId);
-            var query1 = query.ToList();
+            //if (request.CategoryId != null && request.CategoryId != 0)
+            //    query = query.Where(p => p.pic.CategoryId == request.CategoryId);
             //3. Paging
             int totalRow = await query.CountAsync();
 
@@ -325,7 +324,7 @@ namespace COBAShop.Service.Catalog.Products
             product.Stock = request.Stock;
             product.Price = request.Price;
             //Save image
-            if (request.ThumbnailImages!=null&& request.ThumbnailImages.Count > 0)
+            if (request.ThumbnailImages != null && request.ThumbnailImages.Count > 0)
             {
                 //xóa trong danh sach product image
                 var productImages = await _context.ProductImages.Where(e => e.ProductId == product.Id).ToListAsync();

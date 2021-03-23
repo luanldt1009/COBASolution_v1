@@ -4,7 +4,20 @@
     ViewData["Title"] = "Thêm mới sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@section Scripts{
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#ckEditor'), {
+                toolbar: ['heading', '|', 'bold', 'italic', 'link']
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+    </script>
+}
 <div class="container-fluid">
     <h1 class="mt-4">Thêm mới sản phẩm</h1>
     <ol class="breadcrumb mb-4">
@@ -14,10 +27,9 @@
     <div class="card mb-4">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <form asp-action="Create" asp-controller="Product" enctype="multipart/form-data" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
                         <div class="form-group">
                             <label asp-for="Name" class="control-label"></label>
                             <input asp-for="Name" class="form-control" />
@@ -46,7 +58,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="Details" class="control-label"></label>
-                            <input asp-for="Details" class="form-control" />
+                            <textarea asp-for="Details" id="ckEditor" rows="30" class="form-control"></textarea>
                             <span asp-validation-for="Details" class="text-danger"></span>
                         </div>
                         <div class="form-group">
